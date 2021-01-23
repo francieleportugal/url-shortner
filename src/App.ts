@@ -1,4 +1,5 @@
-import express,{Express} from 'express';
+import express, { Express } from 'express';
+const router = require('./routes/index');
 
 class App {
   public express: Express;
@@ -9,13 +10,6 @@ class App {
   }
 
   private mountRoutes (): void {
-    const router = express.Router();
-
-    router.get('/', (req, res) => {
-      res.json({
-        message: 'Hello World!',
-      });
-    });
     this.express.use('/', router);
   }
 }

@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
-import {ParamsDictionary} from 'express-serve-static-core'
 
-const data: any = {};
+const data: Record<string, string | undefined> = {};
 
 type RequestBody = {
     url: string,

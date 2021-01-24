@@ -2,8 +2,8 @@ import req from "supertest";
 import app from './App';
 
 describe('app.js', () => {
-  it.only("Cadastrar url nova, ok", async () => {
-    const res = await req(app)
+  it("Cadastrar url nova, ok", async () => {
+    await req(app)
       .post("/")
       .send({ 
         url: 'https://www.educative.io/courses/grokking-the-system-design-interview/m2ygV4E81AR' ,
@@ -14,6 +14,10 @@ describe('app.js', () => {
   it.todo('Cadastrar url com chave existente, erro');
   it.todo('Enviar url inválida, erro');
   it.todo('Enviar chave inválida, erro');
-  it.todo('Consultar url existente, ok');
+  it('Consultar url existente, ok', async () => {
+    await req(app)
+      .get("/educative")
+      .expect(302);
+  });
   it.todo('Consultar url inexistente, erro');
 });

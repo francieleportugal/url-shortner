@@ -8,6 +8,7 @@
     "outDir": "dist",
     "strict": true,
     "declaration": true,
+    "strictNullChecks": true,
   },
   "lib": [
     "es2015"

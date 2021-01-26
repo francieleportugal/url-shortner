@@ -11,7 +11,18 @@ describe('app.js', () => {
       })
       .expect(200);
   });
-  it.todo('Register url with existing key, erro');
+  it('Register url with existing key, error', async () => {
+    await req(app)
+      .post("/")
+      .send({ 
+        url: 'https://www.educative.io/courses/grokking-the-system-design-interview/m2ygV4E81AR' ,
+        name: 'educative',
+      })
+      .expect(422)
+      .then(res => {
+        expect(res.body.message).toBe("Name to abbreviate url already exists");
+      });
+  });
   it('Send invalid url, error in data validation', async () => {
     await req(app)
       .post("/")
@@ -57,5 +68,12 @@ describe('app.js', () => {
       .get("/educative")
       .expect(302);
   });
-  it.todo('Query missing URL, error');
+  it('Query missing URL, error', async () => {
+    await req(app)
+      .get("/invalidName")
+      .expect(404)
+      .then(res => {
+        expect(res.body.message).toBe("The short name of the url does not exist");
+      });
+  });
 });

@@ -6,6 +6,12 @@ const urlShortnetController = {
     async create (req: Request, res: Response) {
         const { url, name } = req.body;
 
+        if (data[name]) {
+            return res.status(422).json({
+                message: "Name to abbreviate url already exists",
+            });
+        }
+
         data[name] = url;
     
         res.sendStatus(200);
@@ -19,7 +25,9 @@ const urlShortnetController = {
         if (url) {
             res.redirect(url);
         } else {
-            res.sendStatus(404);
+            return res.status(404).json({
+                message: "The short name of the url does not exist",
+            });
         }
     },
 };

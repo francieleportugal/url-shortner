@@ -1,10 +1,19 @@
 import { Request, Response } from 'express';
 
-const data: Record<string, string | undefined> = {};
+interface DataType {
+    url: string;
+    expirationDate?: Date;
+}
+
+const data: Record<string, DataType | undefined> = {};
 
 const urlShortnetController = {
     async create (req: Request, res: Response) {
-        const { url, name } = req.body;
+        const {
+            url,
+            name,
+            expiration_date: expirationDate,
+        } = req.body;
 
         if (data[name]) {
             return res.status(422).json({
@@ -12,7 +21,14 @@ const urlShortnetController = {
             });
         }
 
-        data[name] = url;
+        const expirationDateDefault = new Date();
+        const newYear = expirationDateDefault.getFullYear() + 1;
+        expirationDateDefault.setFullYear(newYear);
+
+        data[name] = {
+            url,
+            expirationDate: expirationDate || expirationDateDefault,
+        };
     
         res.sendStatus(200);
     },
@@ -20,7 +36,7 @@ const urlShortnetController = {
     async get (req: Request, res: Response) {
         const { name } = req.params;
 
-        const url = data[name];
+        const url = data[name]?.url;
 
         if (url) {
             res.redirect(url);

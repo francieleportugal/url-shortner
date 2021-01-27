@@ -2,14 +2,37 @@ import req from "supertest";
 import app from './App';
 
 describe('app.js', () => {
-  it("Register new url, ok", async () => {
+  it("Register new url without expiration date, ok", async () => {
     await req(app)
       .post("/")
       .send({ 
         url: 'https://www.educative.io/courses/grokking-the-system-design-interview/m2ygV4E81AR' ,
-        name: 'educative',
+        name: 'educative',      
       })
       .expect(200);
+  });
+  it("Register new url with expiration date, ok", async () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+
+    await req(app)
+      .post("/")
+      .send({ 
+        url: 'https://github.com/francieleportugal/url-shortner' ,
+        name: 'urlShortner',
+        expiration_date: new Date(),   
+      })
+      .expect(200);
+  });
+  it.only("Register new url with invalid expiration date, ok", async () => {
+    await req(app)
+      .post("/")
+      .send({ 
+        url: 'https://github.com/francieleportugal/url-shortner' ,
+        name: 'urlShortner',
+        expiration_date: '2021-26T02:55:10.875Z',   
+      })
+      .expect(400);
   });
   it('Register url with existing key, error', async () => {
     await req(app)

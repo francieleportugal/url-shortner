@@ -11,9 +11,7 @@ export const createValidate = async (req: Request, res: Response, next: NextFunc
         expiration_date: z.string()
             .nonempty()
             .refine((value) => {
-                const date = moment(value);
-
-                return date.isValid();
+                return moment(value, moment.ISO_8601, true).isValid();
             }, {
                 message: "invalid date",
             }).optional(),

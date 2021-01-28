@@ -24,13 +24,23 @@ describe('app.js', () => {
       })
       .expect(200);
   });
-  it.only("Register new url with invalid expiration date, ok", async () => {
+  it("Register new url with invalid expiration date, ok", async () => {
     await req(app)
       .post("/")
       .send({ 
         url: 'https://github.com/francieleportugal/url-shortner' ,
         name: 'urlShortner',
         expiration_date: '2021-26T02:55:10.875Z',   
+      })
+      .expect(400);
+  });
+  it("Register new url with invalid expiration date, ok", async () => {
+    await req(app)
+      .post("/")
+      .send({ 
+        url: 'https://github.com/francieleportugal/url-shortner' ,
+        name: 'urlShortner',
+        expiration_date: null,   
       })
       .expect(400);
   });

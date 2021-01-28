@@ -13,14 +13,14 @@ describe('app.js', () => {
   });
   it("Register new url with expiration date, ok", async () => {
     const date = new Date();
-    date.setDate(date.getDate() + 1);
+    date.setDate(date.getDate() - 1);
 
     await req(app)
       .post("/")
       .send({ 
         url: 'https://github.com/francieleportugal/url-shortner' ,
         name: 'urlShortner',
-        expiration_date: new Date(),   
+        expiration_date: date,   
       })
       .expect(200);
   });
@@ -104,6 +104,14 @@ describe('app.js', () => {
   it('Query missing URL, error', async () => {
     await req(app)
       .get("/invalidName")
+      .expect(404)
+      .then(res => {
+        expect(res.body.message).toBe("The short name of the url does not exist");
+      });
+  });
+  it('Query expired URL, error', async () => {
+    await req(app)
+      .get("/urlShortner")
       .expect(404)
       .then(res => {
         expect(res.body.message).toBe("The short name of the url does not exist");

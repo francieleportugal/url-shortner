@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import moment from 'moment';
 
 interface DataType {
     url: string;
@@ -39,12 +40,15 @@ const urlShortnetController = {
         const url = data[name]?.url;
 
         if (url) {
-            res.redirect(url);
-        } else {
-            return res.status(404).json({
-                message: "The short name of the url does not exist",
-            });
+            const expirationDate = data[name]?.expirationDate;
+            const urlHasNotExpired = moment(new Date()).isBefore(expirationDate);
+
+            if (urlHasNotExpired) return res.redirect(url);
         }
+
+        return res.status(404).json({
+            message: "The short name of the url does not exist",
+        });
     },
 };
 

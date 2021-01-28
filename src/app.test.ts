@@ -112,9 +112,9 @@ describe('app.js', () => {
   it('Query expired URL, error', async () => {
     await req(app)
       .get("/urlShortner")
-      .expect(404)
+      .expect(422)
       .then(res => {
-        expect(res.body.message).toBe("The short name of the url does not exist");
+        expect(res.body.message).toBe("URL expired");
       });
   });
 });

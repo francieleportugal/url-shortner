@@ -39,16 +39,22 @@ const urlShortnetController = {
 
         const url = data[name]?.url;
 
-        if (url) {
-            const expirationDate = data[name]?.expirationDate;
-            const urlHasNotExpired = moment(new Date()).isBefore(expirationDate);
-
-            if (urlHasNotExpired) return res.redirect(url);
+        if (!url) {
+            return res.status(404).json({
+                message: "The short name of the url does not exist",
+            });
         }
 
-        return res.status(404).json({
-            message: "The short name of the url does not exist",
-        });
+        const expirationDate = data[name]?.expirationDate;
+        const urlExpired = moment(new Date()).isSameOrAfter(expirationDate);
+
+        if (urlExpired) {
+            return res.status(422).json({
+                message: "URL expired",
+            });
+        }
+
+        return res.redirect(url);
     },
 };
 

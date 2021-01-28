@@ -4,6 +4,7 @@ import moment from 'moment';
 interface DataType {
     url: string;
     expirationDate?: Date;
+    acessos: number;
 }
 
 const data: Record<string, DataType | undefined> = {};
@@ -29,6 +30,7 @@ const urlShortnetController = {
         data[name] = {
             url,
             expirationDate: expirationDate || expirationDateDefault,
+            acessos: 0,
         };
     
         res.sendStatus(200);
@@ -54,7 +56,28 @@ const urlShortnetController = {
             });
         }
 
+        if (data[name]?.acessos != undefined) {
+            data[name]!.acessos = data[name]!.acessos + 1;
+        }
+
         return res.redirect(url);
+    },
+
+    async getMetrics (req: Request, res: Response) {
+        const { name } = req.params;
+
+        const url = data[name]?.url;
+        const acessos = data[name]?.acessos;
+
+        if (!url) {
+            return res.status(404).json({
+                message: "The short name of the url does not exist",
+            });
+        }
+    
+        res.status(200).json({
+            acessos,
+        });
     },
 };
 

@@ -117,4 +117,12 @@ describe('app.js', () => {
         expect(res.body.message).toBe("URL expired");
       });
   });
+  it('Check metrics, ok', async () => {
+    await req(app)
+      .get("/educative/metrics")
+      .expect(200)
+      .then(res => {
+        expect(res.body.acessos).toBe(1);
+      });
+  });
 });

@@ -118,9 +118,6 @@ describe('app.js', () => {
       });
   });
   it('Check metrics, ok', async () => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-
     await req(app)
       .get("/educative/metrics")
       .expect(200)

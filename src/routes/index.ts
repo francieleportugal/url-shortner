@@ -7,6 +7,6 @@ const router: Router = Router();
 
 router.post('/', createValidate, urlShortnerController.create);
 router.get('/:name', getValidate, urlShortnerController.get);
-router.get('/:name/metrics', getValidate, urlShortnerController.getMetrics);
+router.get('/:name/metrics', getValidate, urlShortnerController.getMetricsByUrl);
 
 module.exports = router;

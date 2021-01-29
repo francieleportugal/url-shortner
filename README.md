@@ -11,8 +11,6 @@
 ## Prisma
 ```npx prisma introspect```
 
-```npx prisma introspect```
-
 ```npx prisma generate```
 
 ```npx prisma db push --preview-feature```

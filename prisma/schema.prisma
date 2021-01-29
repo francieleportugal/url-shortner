@@ -11,4 +11,5 @@ model Url {
   name            String   @unique
   url             String
   expiration_date DateTime @default(now())
+  acessos   Int @default(0)
 }

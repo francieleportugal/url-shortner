@@ -1,37 +1,22 @@
 import { Request, Response } from 'express';
 import moment from 'moment';
+import { Url } from '@prisma/client';
+import urlService from '../services/urlService';
+import acessoService from '../services/acessoService';
 
-interface DataType {
-    url: string;
-    expirationDate?: Date;
-    acessos: number;
-}
-
-const data: Record<string, DataType | undefined> = {};
+const data: Record<string, Url | undefined> = {};
 
 const urlShortnetController = {
     async create (req: Request, res: Response) {
-        const {
-            url,
-            name,
-            expiration_date: expirationDate,
-        } = req.body;
+        const urlExists: Url | null = await urlService.getByName(req.body.name);
 
-        if (data[name]) {
+        if (urlExists) {
             return res.status(422).json({
                 message: "Name to abbreviate url already exists",
             });
         }
 
-        const expirationDateDefault = new Date();
-        const newYear = expirationDateDefault.getFullYear() + 1;
-        expirationDateDefault.setFullYear(newYear);
-
-        data[name] = {
-            url,
-            expirationDate: expirationDate || expirationDateDefault,
-            acessos: 0,
-        };
+        await urlService.create(req.body);
     
         res.sendStatus(200);
     },
@@ -39,7 +24,7 @@ const urlShortnetController = {
     async get (req: Request, res: Response) {
         const { name } = req.params;
 
-        const url = data[name]?.url;
+        const url: Url | null = await urlService.getByName(name);
 
         if (!url) {
             return res.status(404).json({
@@ -47,8 +32,7 @@ const urlShortnetController = {
             });
         }
 
-        const expirationDate = data[name]?.expirationDate;
-        const urlExpired = moment(new Date()).isSameOrAfter(expirationDate);
+        const urlExpired = moment(new Date()).isSameOrAfter(url.expiration_date);
 
         if (urlExpired) {
             return res.status(422).json({
@@ -56,11 +40,9 @@ const urlShortnetController = {
             });
         }
 
-        if (data[name]?.acessos != undefined) {
-            data[name]!.acessos = data[name]!.acessos + 1;
-        }
+        await acessoService.create(url);
 
-        return res.redirect(url);
+        return res.redirect(url.url);
     },
 
     async getMetrics (req: Request, res: Response) {

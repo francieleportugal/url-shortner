@@ -22,8 +22,11 @@
     "url": "https://github.com/francieleportugal/url-shortner/issues"
   },
   "homepage": "https://github.com/francieleportugal/url-shortner#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "@prisma/cli": "^2.15.0"
+  },
   "dependencies": {
+    "@prisma/client": "^2.15.0",
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.21",

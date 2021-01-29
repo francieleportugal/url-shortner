@@ -1,7 +1,9 @@
 import req from "supertest";
 import app from './App';
+import moment from 'moment';
 
 describe('app.js', () => {
+  jest.setTimeout(10000);
   it("Register new url without expiration date, ok", async () => {
     await req(app)
       .post("/")
@@ -122,7 +124,11 @@ describe('app.js', () => {
       .get("/educative/metrics")
       .expect(200)
       .then(res => {
-        expect(res.body.acessos.length).toBe(2);
+        const date = moment(new Date()).format("DD/MM/YYYY").toString();
+
+        expect(res.body.metrics.length).toBe(1);
+        expect(res.body.metrics[0].date).toBe(date);
+        expect(res.body.metrics[0].total).toBeGreaterThan(1);
       });
   });
 });

@@ -30,21 +30,19 @@ class AcessoService {
         });
     }
 
-    // async getMetrics(name: string) {
-    //     return prisma.acesso.aggregate({    
-    //         by: [
-    //             "EXTRACT(YEAR FROM TIMESTAMP acess_date)",
-    //             "EXTRACT(MONTH FROM TIMESTAMP acess_date)",
-    //             "EXTRACT(DAY FROM TIMESTAMP acess_date)"
-    //         ],
-    //         sum: {
-    //             total: true,
-    //         },
-    //         where: {
-    //             name_url: name,
-    //         },
-    //     })
-    // }
+    async getMetricsByUrl(name: string) {
+        return prisma.acesso.groupBy({    
+            by: [
+                "TO_CHAR(acess_date :: DATE), 'dd/mm/yyyy'",
+            ],
+            where: {
+                name_url: name,
+            },
+            sum: {
+                total: true,
+            },
+        })
+    }
 }
 
 export default new AcessoService();

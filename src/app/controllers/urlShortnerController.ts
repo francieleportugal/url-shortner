@@ -45,11 +45,10 @@ const urlShortnetController = {
         return res.redirect(url.url);
     },
 
-    async getMetrics (req: Request, res: Response) {
+    async getMetricsByUrl (req: Request, res: Response) {
         const { name } = req.params;
 
-        const url = data[name]?.url;
-        const acessos = data[name]?.acessos;
+        const url: Url | null = await urlService.getByName(name);
 
         if (!url) {
             return res.status(404).json({
@@ -57,6 +56,8 @@ const urlShortnetController = {
             });
         }
     
+        const acessos = await acessoService.getMetricsByUrl(name);
+
         res.status(200).json({
             acessos,
         });

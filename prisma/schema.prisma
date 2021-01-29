@@ -8,8 +8,16 @@ datasource db {
 }
 
 model Url {
-  name            String   @unique
-  url             String
-  expiration_date DateTime @default(now())
-  acessos   Int @default(0)
+  name              String      @unique
+  url               String
+  expiration_date   DateTime
+  created_at        DateTime?   @default(now())
+}
+
+model Acesso {
+  id          Int         @id @default(autoincrement())
+  acess_date  DateTime    @default(now())
+  total       Int
+  name_url    String
+  url         Url         @relation(fields: [name_url], references: [name])
 }

@@ -3,7 +3,7 @@ import { totalmem } from 'os';
 
 const prisma = new PrismaClient();
 
-class AcessoService {
+class AcessService {
     async getByUrl (url: Url) {
         return prisma.acesso.findFirst({
             where: { name_url: url.name },
@@ -31,18 +31,13 @@ class AcessoService {
     }
 
     async getMetricsByUrl(name: string) {
-        return prisma.acesso.groupBy({    
-            by: [
-                "TO_CHAR(acess_date :: DATE), 'dd/mm/yyyy'",
-            ],
-            where: {
-                name_url: name,
-            },
-            sum: {
-                total: true,
-            },
-        })
+        return prisma.$queryRaw`
+            SELECT TO_CHAR(acess_date, 'dd/mm/yyyy') AS date, SUM(total) AS total
+            FROM "url_shortner"."Acesso" 
+            WHERE name_url = ${name}
+            GROUP BY TO_CHAR(acess_date, 'dd/mm/yyyy')
+        `;
     }
 }
 
-export default new AcessoService();
+export default new AcessService();

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import moment from 'moment';
 import { Url } from '@prisma/client';
 import urlService from '../services/urlService';
-import acessoService from '../services/acessoService';
+import acessService from '../services/acessService';
 
 const data: Record<string, Url | undefined> = {};
 
@@ -40,7 +40,7 @@ const urlShortnetController = {
             });
         }
 
-        await acessoService.create(url);
+        await acessService.create(url);
 
         return res.redirect(url.url);
     },
@@ -56,10 +56,10 @@ const urlShortnetController = {
             });
         }
     
-        const acessos = await acessoService.getMetricsByUrl(name);
+        const metrics = await acessService.getMetricsByUrl(name);
 
         res.status(200).json({
-            acessos,
+            metrics,
         });
     },
 };

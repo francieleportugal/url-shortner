@@ -4,10 +4,8 @@ import { Url } from '@prisma/client';
 import urlService from '../services/urlService';
 import acessService from '../services/acessService';
 
-const data: Record<string, Url | undefined> = {};
-
 const urlShortnetController = {
-    async create (req: Request, res: Response) {
+    async create (req: Request, res: Response): Promise<Response> {
         const urlExists: Url | null = await urlService.getByName(req.body.name);
 
         if (urlExists) {
@@ -18,10 +16,10 @@ const urlShortnetController = {
 
         await urlService.create(req.body);
     
-        res.sendStatus(200);
+        return res.sendStatus(200);
     },
 
-    async get (req: Request, res: Response) {
+    async get (req: Request, res: Response): Promise<Response | void> {
         const { name } = req.params;
 
         const url: Url | null = await urlService.getByName(name);
@@ -45,7 +43,7 @@ const urlShortnetController = {
         return res.redirect(url.url);
     },
 
-    async getMetricsByUrl (req: Request, res: Response) {
+    async getMetricsByUrl (req: Request, res: Response): Promise<Response> {
         const { name } = req.params;
 
         const url: Url | null = await urlService.getByName(name);
@@ -58,7 +56,7 @@ const urlShortnetController = {
     
         const metrics = await acessService.getMetricsByUrl(name);
 
-        res.status(200).json({
+        return res.status(200).json({
             metrics,
         });
     },

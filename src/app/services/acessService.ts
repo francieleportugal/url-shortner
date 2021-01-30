@@ -1,5 +1,4 @@
 import { PrismaClient, Acesso, Url } from '@prisma/client';
-import { totalmem } from 'os';
 
 const prisma = new PrismaClient();
 

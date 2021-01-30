@@ -9,4 +9,4 @@ router.post('/', createValidate, urlShortnerController.create);
 router.get('/:name', getValidate, urlShortnerController.get);
 router.get('/:name/metrics', getValidate, urlShortnerController.getMetricsByUrl);
 
-module.exports = router;
+export default router;

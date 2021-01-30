@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 
 const regexp = new RegExp('^([A-Z]|[a-z]|[0-9]){1,}$');
 
-export const createValidate = async (req: Request, res: Response, next: NextFunction) => {
+export const createValidate = async (req: Request, res: Response, next: NextFunction) : Promise<Response | undefined> => {
     const schemaValidate =  z.object({
         url: z.string().url(),
         name: z.string().nonempty().regex(regexp),
@@ -29,7 +29,7 @@ export const createValidate = async (req: Request, res: Response, next: NextFunc
     next();
 };
 
-export const getValidate = async (req: Request, res: Response, next: NextFunction) => {
+export const getValidate = async (req: Request, res: Response, next: NextFunction) : Promise<Response | undefined> => {
     const schemaValidate = z.object({
         name: z.string().nonempty().regex(regexp)
     });

@@ -1,5 +1,5 @@
 import express, { Express } from 'express';
-const router = require('./routes/index');
+import router from './routes';
 
 class App {
   public express: Express;

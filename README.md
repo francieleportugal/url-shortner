@@ -1,11 +1,10 @@
 # url-shortner
 
-## Variáveis de ambiente
+## Environment variables
 
-
-| Variável             | Descrição                                |
+| Variable             | Description                              |
 | -------------------- | ---------------------------------------- |
-| `DATABASE_URL`       | URL do banco de dados                    |
+| `DATABASE_URL`       | Database URL                             |
 
 
 ## Prisma

@@ -22,6 +22,25 @@ class UrlService {
             where: { name },
         });
     }
+
+    async getExpiredURLs () {
+        return prisma.url.findMany({
+            select: {
+                name: true,
+            },
+            where: {
+                expiration_date: {
+                    lte: new Date(),
+                },
+            },
+        });
+    }
+
+    async deleteUrl (name: string) {
+        return prisma.url.delete({
+            where: { name },
+        });        
+    }
 }
 
 export default new UrlService();

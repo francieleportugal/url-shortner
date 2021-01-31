@@ -37,6 +37,12 @@ class AcessService {
             GROUP BY TO_CHAR(acess_date, 'dd/mm/yyyy')
         `;
     }
+
+    async deleteManyByUrl (name: string) {
+        return prisma.acesso.deleteMany({
+            where: { name_url: name },
+        });
+    }
 }
 
 export default new AcessService();

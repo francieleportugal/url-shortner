@@ -6,7 +6,7 @@ interface DataType {
     name: string;
 }
 
-const job = new CronJob('0 0 0 1/1 * ? *', async function () {
+const job = new CronJob('0 0 0 * * *', async function () {
     const urls: DataType[] | [] = await urlService.getExpiredURLs();
 
     await Promise.all(urls.map(async (url: DataType) => {

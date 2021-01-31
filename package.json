@@ -24,8 +24,7 @@
   },
   "homepage": "https://github.com/francieleportugal/url-shortner#readme",
   "devDependencies": {
-    "@prisma/cli": "^2.15.0",
-    "@types/cron": "^1.7.2"
+    "@prisma/cli": "^2.15.0"
   },
   "dependencies": {
     "@prisma/client": "^2.15.0",
@@ -33,6 +32,7 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.21",
     "@types/supertest": "^2.0.10",
+    "@types/cron": "^1.7.2",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
     "cron": "^1.8.2",

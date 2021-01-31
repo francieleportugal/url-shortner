@@ -8,6 +8,7 @@ class App {
     this.express = express();
     this.useRequest();
     this.mountRoutes();
+    this.setSettings();
   }
 
   private useRequest(): void {
@@ -18,5 +19,11 @@ class App {
   private mountRoutes (): void {
     this.express.use('/', router);
   }
+
+  private setSettings() {
+    this.express.set('view engine', 'ejs');
+    this.express.set('views','src/app/views');
+  }
 }
+
 export default new App().express;

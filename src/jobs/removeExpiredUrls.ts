@@ -15,4 +15,5 @@ const job = new CronJob('0 0 0 * * *', async function () {
     }));
 });
 
-job.start();
+
+export default job;
